@@ -1,5 +1,10 @@
 @startuml
 /'https://github.com/little-hands/20190511-genba-ddd-hanson/blob/master/domainModel.puml '/
+
+skinparam {
+   defaultFontName defaultFontName Noto Sans CJK JP Regular
+ }
+
 skinparam packageStyle rectangle
 
 package 契約 {
