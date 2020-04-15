@@ -32,17 +32,17 @@ package jyanjyan-domain {
   end note
 
   class 手牌  {
-    手牌State: state
+    シャンテン数: state
     Option[点数]: maybe点数
   }
 
 
-  enum 手牌State {
+  enum シャンテン数 {
     ノーテン
     聴牌
     テンパイ
   }
-  手牌 o-l-手牌State
+  手牌 o-l-シャンテン数
 
 
   enum 牌Type {
@@ -69,6 +69,9 @@ package jyanjyan-domain {
   ' 代数型データを表現する方法がわからん，，
   ' 最初の親が来まるまではすべての牌のAreaは山となる
 
+  class 親
+  class 自風牌
+
   ' interface 数牌
   ' interface 字牌
 
@@ -85,6 +88,8 @@ package jyanjyan-domain {
     Area area = 山
   }
   牌 <|-- 一萬1
+
+
 
   ' class 二萬
   ' class 三萬
