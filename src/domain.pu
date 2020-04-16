@@ -7,54 +7,142 @@ skinparam {
 
 skinparam packageStyle rectangle
 
-package 契約 {
-  object 契約 {
-    契約ID
-    容量プラン
-    List<オプションプラン>
+package jyanjyan-domain {
+  interface 牌 {
+    牌Type 牌Type
+    Area area
   }
-}
-note left of 契約
-  契約ごとに容量プラン/オプションプランを選択する
-  選択時にオプションプランの設定可能条件をチェックする
+  note left of 牌
+    牌 interface を継承して具象牌を作る
+  end note
 
-  契約で選択したプランに応じて請求金額を計算する
-end note
+  class 役 {
+    List[牌]: List牌
+  }
+  牌 o-l- 役
+  class 局
+  class 点数 {
+    手牌: 手牌
+    ??? : ???
+  }
+  手牌 o-- 点数
+  note left of 点数
+    fixme:点数を決めるコンストラクタ引数が
+    不足しているので追加する
+  end note
 
-package 容量プラン{
-  object 容量プラン{
-    容量プランID
-    月額
+  class 手牌  {
+    シャンテン数: state
+    Option[点数]: maybe点数
   }
-}
-note bottom of 容量プラン
-  プランは現在1G/3G/30Gある
-  プランごとに月額が決まっている
-end note
-契約 "1" -d-> "1" 容量プラン
 
-package オプションプラン{
-  object オプションプラン{
-    オプションプランID
-    月額
-  }
-  object 設定可能容量プラン{
-    List<許可容量プランID>
-  }
-  オプションプラン "1" *-- "0..1" 設定可能容量プラン
-}
-契約 "1" --> "0..n" オプションプラン
-設定可能容量プラン "1" -r-> "0..n" 容量プラン
-note bottom of 設定可能容量プラン
-  オプションは設定できる容量プランが決まっている
-  例：動画見放題オプションが設定できるのは、
-  　　3Gプランと30Gプランのみ
-end note
 
-package 請求金額 {
-  object 請求金額 {
-    金額
+  enum シャンテン数 {
+    ノーテン
+    聴牌
+    テンパイ
   }
+  手牌 o-l-シャンテン数
+
+
+  enum 牌Type {
+   数牌[_]
+   字牌[_]
+  }
+  牌 *-u- 牌Type
+  note left of 牌Type
+    enumではなくinterface？
+    牌Type: 数牌[索子[一]] のように表現したい
+  end note
+
+  enum Area {
+    王牌
+    山
+    河[player]
+    手牌[player]
+  }
+  牌 *-u- Area
+  note left of Area
+    fixme: ポン，チー，ツモ，ロンなどで
+    使われた牌に関しては未実装
+  end note
+  ' 代数型データを表現する方法がわからん，，
+  ' 最初の親が来まるまではすべての牌のAreaは山となる
+
+  class 親
+  class 自風牌
+
+  ' interface 数牌
+  ' interface 字牌
+
+  ' class 萬子
+  ' class 索子
+  ' class 筒子
+
+  ' class 風牌
+  ' class 三元牌
+
+
+  class 一萬1 {
+    牌Type 牌Type = 数牌[萬[一]]
+    Area area = 山
+  }
+  牌 <|-- 一萬1
+
+
+
+  ' class 二萬
+  ' class 三萬
+  ' class 四萬
+  ' class 五萬
+  ' class 六萬
+  ' class 七萬
+  ' class 八萬
+  ' class 九萬
+
+  ' class 一索
+  ' class 二索
+  ' class 三索
+  ' class 四索
+  ' class 五索
+  ' class 六索
+  ' class 七索
+  ' class 八索
+  ' class 九索
+
+  ' class 一筒
+  ' class 二筒
+  ' class 三筒
+  ' class 四筒
+  ' class 五筒
+  ' class 六筒
+  ' class 七筒
+  ' class 八筒
+  ' class 九筒
+
+
+
+  ' class 東
+  ' class 南
+  ' class 西
+  ' class 北
+
+  class 白4 {
+    牌Type 牌Type = 字牌三元牌[白]]
+    Area area = 河[player1]
+  }
+  牌 <|-- 白4
+
+  ' class 發
+  ' class 中
+
+  class player
+  note left of player
+    playerは自らの点数と手牌を持つ
+  end note
+
+  mix_actor player1
+
+
 }
-請求金額 <-r- 契約
 @enduml
